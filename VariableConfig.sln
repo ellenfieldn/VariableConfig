@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VariableConfig", "VariableConfig\VariableConfig.csproj", "{248F6258-E7A8-4A33-9EF5-1FDFA419D51A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VariableConfig", "src\VariableConfig\VariableConfig.csproj", "{248F6258-E7A8-4A33-9EF5-1FDFA419D51A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VariableConfig.Test", "test\VariableConfig.Test\VariableConfig.Test.csproj", "{26F8F270-D063-46B3-BE33-39EA5692714E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10CCDBA0-487C-4848-8ED0-4223F5EFD2A2}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,10 @@ Global
 		{248F6258-E7A8-4A33-9EF5-1FDFA419D51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{248F6258-E7A8-4A33-9EF5-1FDFA419D51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{248F6258-E7A8-4A33-9EF5-1FDFA419D51A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26F8F270-D063-46B3-BE33-39EA5692714E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26F8F270-D063-46B3-BE33-39EA5692714E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26F8F270-D063-46B3-BE33-39EA5692714E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26F8F270-D063-46B3-BE33-39EA5692714E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
