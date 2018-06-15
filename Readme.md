@@ -18,6 +18,11 @@ var builder = new ConfigurationBuilder()
 Configuration = builder.Build();
 ```
 
+Pull properties from configuration as you normally would:
+```C#
+var myValue = Configuration["Variable"];
+```
+
 ## Configuration
 - Anything within `${ }` will be treated as a variable.
 - Variables are resolved from configuration as if they were a normal configuration setting.
