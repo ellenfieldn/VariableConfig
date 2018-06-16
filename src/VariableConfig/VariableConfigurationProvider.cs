@@ -11,6 +11,14 @@ namespace VariableConfig
     {
         private readonly IConfiguration _config;
 
+        /*
+         * If we have an odd number of backslashes directly before ${...}, then we know the $ is escaped
+         * '(?<=[^\\]|^)'              Find a character to anchor to -- either the start of the string or a non-backslash
+         * ((?:\\\\)*)                 Grab any number of '\\' that precede a '$'. This will only match if we have an even number.
+         * \$\{(?<variableName>.*?)\}  Anything of the form ${...} is our variable name.
+         */
+        private static readonly string _regexThatMatchesVariables = @"(?<=[^\\]|^)((?:\\\\)*)\$\{(?<variableName>.*?)\}";
+
         public VariableConfigurationProvider(VariableConfigurationSource source)
         {
             source = source ?? throw new ArgumentNullException(nameof(source));
@@ -35,23 +43,32 @@ namespace VariableConfig
         public bool TryGet(string key, out string value)
         {
             value = _config[key];
-            bool getResult = true;
             if (string.IsNullOrEmpty(value))
             {
                 return false;
             }
-            value = Regex.Replace(value, @"([^\\]|^)\\(?>(\\\\)*)\$|\${(?<variableName>.*?)}", match =>
+            var getResult = ReplaceVariable(ref value);
+            return !string.IsNullOrEmpty(value) && getResult;
+        }
+
+        private bool ReplaceVariable(ref string after)
+        {
+            var getResult = true;
+            after = Regex.Replace(after, _regexThatMatchesVariables, match =>
             {
-                if(!match.Groups["variableName"].Success)
+                var variableGroup = match.Groups["variableName"];
+                if (!variableGroup.Success)
                 {
                     return match.Groups[0].Value;
                 }
-                getResult &= TryGet(match.Groups["variableName"].Value, out string innerMatchResult);
-                return innerMatchResult;
+                getResult = TryGet(variableGroup.Value, out string innerMatchResult);
+                return match.Groups.Where(g => g.Name != "0" && !string.IsNullOrEmpty(g.Value))
+                    .Select(g => (g.Name == "variableName") ? innerMatchResult : Regex.Replace(g.Value, @"\\\\", @"\")) //Unescape '\\' as '\'
+                    .Aggregate((first, second) => first + second);
             });
-            value = Regex.Replace(value, @"\\\\", @"\");
-            value = Regex.Replace(value, @"\\\${", @"${");
-            return !string.IsNullOrEmpty(value) && getResult;
+            after = Regex.Replace(after, @"\\\${", @"${"); //Unescape '\${' as '${'
+            after = Regex.Replace(after, @"\\\\\$", @"\$"); //Unescape leftover double backslashes that precede a $
+            return getResult;
         }
     }
 }

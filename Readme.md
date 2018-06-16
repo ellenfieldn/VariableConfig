@@ -79,3 +79,4 @@ Assuming that there is a variable named 'Z' that contains the value 'zzzz':
 | asd\\$zzzzasd     |  asd$${Z}asd   |
 | asd\\zzzzasd      | asd\\\\${Z}asd  |
 | asd\\\\zzzzasd   | asd\\\\\\\\${Z}asd |
+| \\\\server\\path | \\\\server\\path |
