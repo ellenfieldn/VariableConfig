@@ -51,10 +51,10 @@ namespace VariableConfig
             return !string.IsNullOrEmpty(value) && getResult;
         }
 
-        private bool ReplaceVariable(ref string after)
+        private bool ReplaceVariable(ref string value)
         {
             var getResult = true;
-            after = Regex.Replace(after, _regexThatMatchesVariables, match =>
+            value = Regex.Replace(value, _regexThatMatchesVariables, match =>
             {
                 var variableGroup = match.Groups["variableName"];
                 if (!variableGroup.Success)
@@ -66,8 +66,8 @@ namespace VariableConfig
                     .Select(g => (g.Name == "variableName") ? innerMatchResult : Regex.Replace(g.Value, @"\\\\", @"\")) //Unescape '\\' as '\'
                     .Aggregate((first, second) => first + second);
             });
-            after = Regex.Replace(after, @"\\\${", @"${"); //Unescape '\${' as '${'
-            after = Regex.Replace(after, @"\\\\\$", @"\$"); //Unescape leftover double backslashes that precede a $
+            value = Regex.Replace(value, @"\\\${", @"${"); //Unescape '\${' as '${'
+            value = Regex.Replace(value, @"\\\\\$", @"\$"); //Unescape leftover double backslashes that precede a $
             return getResult;
         }
     }
