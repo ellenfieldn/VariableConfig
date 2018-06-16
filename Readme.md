@@ -26,6 +26,7 @@ var myValue = Configuration["Variable"];
 You can also use POCO objects in conjunction with Microsoft.Extensions.Configuration.Binder like so:
 ```C#
 var appConfig = Configuration.GetSection("ComplexObject").Get<MyPoco>();
+Assert.AreEqual("VarValueInProperty", appConfig.PropertyOnObject);
 
 public class MyPoco
 {
