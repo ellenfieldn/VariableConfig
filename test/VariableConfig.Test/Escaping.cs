@@ -95,5 +95,11 @@ namespace VariableConfig.Test
         {
             Assert.AreEqual(@"\zzzz", Configuration["Test13"]);
         }
+
+        [TestMethod]
+        public void Test14()
+        {
+            Assert.AreEqual(@"\\server\path", Configuration["Test14"]);
+        }
     }
 }
