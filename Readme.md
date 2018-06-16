@@ -23,6 +23,15 @@ Pull properties from configuration as you normally would:
 var myValue = Configuration["Variable"];
 ```
 
+You can also use POCO objects in conjunction with Microsoft.Extensions.Configuration.Binder like so:
+```C#
+var appConfig = Configuration.GetSection("ComplexObject").Get<MyPoco>();
+
+public class MyPoco
+{
+    public string PropertyOnObject { get; set; }
+}
+```
 ## Configuration
 - Anything within `${ }` will be treated as a variable.
 - Variables are resolved from configuration as if they were a normal configuration setting.

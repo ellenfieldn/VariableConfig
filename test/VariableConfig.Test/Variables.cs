@@ -78,7 +78,8 @@ namespace VariableConfig.Test
         [TestMethod]
         public void DeserializedComplexObject()
         {
-            Assert.Inconclusive("Not Implemented");
+            var appConfig = Configuration.GetSection("ComplexObject").Get<MyPoco>();
+            Assert.AreEqual("VarValueInProperty", appConfig.PropertyOnObject);
         }
 
         /// <summary>
@@ -98,5 +99,10 @@ namespace VariableConfig.Test
         {
             Assert.AreEqual("${MissingVar}asdf", Configuration["VariableMissing"]);
         }
+    }
+
+    public class MyPoco
+    {
+        public string PropertyOnObject { get; set; }
     }
 }
