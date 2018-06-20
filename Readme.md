@@ -1,7 +1,7 @@
 # VariableConfig
 VariableConfig allows you to reference other configuration properties and use them as variables.
 
-[![Build Status](https://ellenfieldn.visualstudio.com/_apis/public/build/definitions/d7ac75f4-5c38-4929-a555-46f4f500827f/3/badge)]
+![Build Status](https://ellenfieldn.visualstudio.com/_apis/public/build/definitions/d7ac75f4-5c38-4929-a555-46f4f500827f/3/badge)
 (https://ellenfieldn.visualstudio.com/VariableConfig/_build/index?&definitionId=3)
 
 ## Usage
