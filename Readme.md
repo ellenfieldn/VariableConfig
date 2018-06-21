@@ -44,6 +44,28 @@ public class MyPoco
 - Variables can refer to other variables.
 - Variables can reference properties in subsections.
 
+### Examples
+The following examples show the values that would be returned for a given key using the xml or json files below as the source configuration.
+```C#
+Configuration["Variable"];                      //"VarValue"
+Configuration["Composite"];                     //"VarValueComp1"
+Configuration["SuperComposite"]                 //"VarValueComp1ContainsVarValue"
+Configuration["ComplexObject:PropertyOnObject"] //"VarValueInProperty"
+```
+
+#### Xml
+```xml
+<AppConfiguration>
+  <NormalSetting>Value1</NormalSetting>
+  <Variable>VarValue</Variable>
+  <Composite>${Variable}Comp1</Composite>
+  <SuperComposite>${Composite}Contains${Variable}</SuperComposite>
+  <ComplexObject>
+    <PropertyOnObject>${Variable}</PropertyOnObject>
+  </ComplexObject>
+  <NestedComplexObject>PropertyIs${ComplexObject:PropertyOnObject}!</NestedComplexObject>
+</AppConfiguration>
+```
 #### Json
 ```json
 {
@@ -60,20 +82,6 @@ public class MyPoco
   }
 }
 ```
-#### Xml
-```xml
-<AppConfiguration>
-  <NormalSetting>Value1</NormalSetting>
-  <Variable>VarValue</Variable>
-  <Composite>${Variable}Comp1</Composite>
-  <SuperComposite>${Composite}Contains${Variable}</SuperComposite>
-  <ComplexObject>
-    <PropertyOnObject>${Variable}</PropertyOnObject>
-  </ComplexObject>
-  <NestedComplexObject>PropertyIs${ComplexObject:PropertyOnObject}!</NestedComplexObject>
-</AppConfiguration>
-```
-
 ### Escaping special characters
 What if you want to have a setting value that contains `'${.*}'`. all you have to do is escape the sequence `${` by putting a `\` in front of it like `\${`.
 
