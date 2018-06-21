@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿// Copyright (c) Nathan Ellenfield. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
@@ -7,6 +10,9 @@ using System.Text.RegularExpressions;
 
 namespace VariableConfig
 {
+    /// <summary>
+    /// Implementation of <see cref="IConfigurationProvider"/> that supports configuration variables.
+    /// </summary>
     public class VariableConfigurationProvider : IConfigurationProvider
     {
         private readonly IConfiguration _config;
@@ -19,12 +25,24 @@ namespace VariableConfig
          */
         private static readonly string _regexThatMatchesVariables = @"(?<=[^\\]|^)((?:\\\\)*)\$\{(?<variableName>.*?)\}";
 
+        /// <summary>
+        /// Initializes a new instance from the source configuration.
+        /// </summary>
+        /// <param name="source">The source configuration.</param>
         public VariableConfigurationProvider(VariableConfigurationSource source)
         {
             source = source ?? throw new ArgumentNullException(nameof(source));
             _config = source.Configuration ?? throw new ArgumentNullException(nameof(source.Configuration));
         }
 
+        /// <summary>
+        /// Returns the immediate descendant configuration keys for a given parent path based on this
+        /// <see cref="IConfigurationProvider"/>'s data and the set of keys returned by all the preceding
+        /// <see cref="IConfigurationProvider"/>s.
+        /// </summary>
+        /// <param name="earlierKeys">The child keys returned by the preceding providers for the same parent path.</param>
+        /// <param name="parentPath">The parent path.</param>
+        /// <returns>The child keys.</returns>
         public IEnumerable<string> GetChildKeys(IEnumerable<string> earlierKeys, string parentPath)
         {
             var section = parentPath == null ? _config : _config.GetSection(parentPath);
@@ -34,12 +52,30 @@ namespace VariableConfig
                 .OrderBy(k => k, ConfigurationKeyComparer.Instance);
         }
 
+        /// <summary>
+        /// Returns a change token if this provider supports change tracking, null otherwise.
+        /// </summary>
+        /// <returns>The <see cref="IChangeToken"/></returns>
         public IChangeToken GetReloadToken() => _config.GetReloadToken();
 
+        /// <summary>
+        /// Loads configuration values from the source represented by this <see cref="IConfigurationProvider"/>.
+        /// </summary>
         public void Load() { }
 
+        /// <summary>
+        /// Sets a configuration value for the specified key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
         public void Set(string key, string value) => _config[key] = value;
 
+        /// <summary>
+        /// Tries to get a configuration value for the specified key and fills in any variables.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns><c>True</c> if a value for the specified key was found, otherwise <c>false</c>.</returns>
         public bool TryGet(string key, out string value)
         {
             value = _config[key];
@@ -62,7 +98,8 @@ namespace VariableConfig
                     return match.Groups[0].Value;
                 }
                 getResult = TryGet(variableGroup.Value, out string innerMatchResult);
-                return match.Groups.Where(g => g.Name != "0" && !string.IsNullOrEmpty(g.Value))
+                return match.Groups.Cast<Group>()
+                    .Where(g => g.Name != "0" && !string.IsNullOrEmpty(g.Value))
                     .Select(g => (g.Name == "variableName") ? innerMatchResult : Regex.Replace(g.Value, @"\\\\", @"\")) //Unescape '\\' as '\'
                     .Aggregate((first, second) => first + second);
             });
