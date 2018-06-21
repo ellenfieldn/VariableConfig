@@ -51,6 +51,7 @@ Configuration["Variable"];                      //"VarValue"
 Configuration["Composite"];                     //"VarValueComp1"
 Configuration["SuperComposite"]                 //"VarValueComp1ContainsVarValue"
 Configuration["ComplexObject:PropertyOnObject"] //"VarValueInProperty"
+Configuration["NestedComplexObject"]            //"PropertyIsVarValueInProperty!"
 ```
 
 #### Xml
