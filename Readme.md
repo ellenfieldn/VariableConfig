@@ -44,7 +44,7 @@ public class MyPoco
 - Variables can refer to other variables.
 - Variables can reference properties in subsections.
 
-.NetCore Json
+Json
 ```json
 {
   "AppConfiguration": {
@@ -60,7 +60,7 @@ public class MyPoco
   }
 }
 ```
-.NetCore Xml
+Xml
 ```xml
 <AppConfiguration>
   <NormalSetting>Value1</NormalSetting>
