@@ -1,6 +1,8 @@
 # VariableConfig
 VariableConfig allows you to reference other configuration properties and use them as variables. It is built on top of the Microsoft.Extensions.Configuration nuget package and supports .NET Core 2.0+ and .Net Framework 4.7+.
 
+This library is published as the "VariableConfig" nuget package.
+
 [![Build Status](https://ellenfieldn.visualstudio.com/_apis/public/build/definitions/d7ac75f4-5c38-4929-a555-46f4f500827f/3/badge)](https://ellenfieldn.visualstudio.com/VariableConfig/_build/index?&definitionId=3)
 
 ## Usage
