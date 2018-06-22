@@ -1,0 +1,19 @@
+{
+  "AppConfiguration": {
+    "Z": "zzzz",
+    "test1": "asd\\${Z}asdf",
+    "test2": "asd$\\${Z}asd",
+    "test3": "asdf\\${${Z}}asd",
+    "test4": "asd$\\${${Z}}asd",
+    "test5": "asdf$${Z}asdf1",
+    "test6": "asd\\\\\\${Z}asd",
+    "test7": "asd\\\\\\${${Z}}asd",
+    "test8": "asd\\\\$${Z}asd",
+    "test9": "asd\\\\${Z}asd",
+    "test10": "asd\\\\\\\\${Z}asd",
+    "test11": "${Z}",
+    "test12": "\\${Z}",
+    "test13": "\\\\${Z}",
+    "test14": "\\\\server\\path"
+  }
+}
