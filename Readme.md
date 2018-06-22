@@ -103,3 +103,6 @@ Assuming that there is a variable named 'Z' that contains the value 'zzzz':
 | asd\\zzzzasd      | asd\\\\${Z}asd  |
 | asd\\\\zzzzasd   | asd\\\\\\\\${Z}asd |
 | \\\\server\\path | \\\\server\\path |
+
+**Note:** Unfortunately for Json strings, you'll need twice the number of backslashes!  
+I will consider choosing another delimiter for the next version.

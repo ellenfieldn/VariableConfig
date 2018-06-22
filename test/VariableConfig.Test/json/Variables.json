@@ -1,0 +1,12 @@
+{
+  "AppConfiguration": {
+    "NormalSetting": "Value1",
+    "Variable": "VarValue",
+    "Composite": "${Variable}Comp1",
+    "SuperComposite": "${Composite}Contains${Variable}",
+    "ComplexObject": {
+      "PropertyOnObject": "${Variable}InProperty"
+    },
+    "NestedComplexObject": "PropertyIs${ComplexObject:PropertyOnObject}!"
+  }
+}
