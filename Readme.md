@@ -29,6 +29,12 @@ Pull properties from configuration and any variable tokens will be replaced with
 var myValue = Configuration["Composite"];
 Assert.AreEqual("VarValueComp1", myValue);
 ```
+## Installation
+### Prerequisites
+.netcore 2.0+ OR .NET 4.7+
+### Installation
+Nuget:
+`PM> Install-Package VariableConfig`
 
 ## Configuration Rules
 - Anything within `${ }` will be treated as a variable.
