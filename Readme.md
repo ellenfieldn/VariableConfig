@@ -4,7 +4,7 @@ VariableConfig allows you to reference other configuration properties and use th
 [![Build Status](https://ellenfieldn.visualstudio.com/_apis/public/build/definitions/d7ac75f4-5c38-4929-a555-46f4f500827f/3/badge)](https://ellenfieldn.visualstudio.com/VariableConfig/_build/index?&definitionId=3)  
 [![VariableConfig](https://img.shields.io/nuget/v/VariableConfig.svg?maxAge=3600)](https://www.nuget.org/packages/VariableConfig/)
 ## Usage
-#### 1. Define the configuration
+### 1. Define the configuration
 Define configuration using the pattern `${...}` to reference other configuration keys.
 ```xml
 <AppConfiguration>
@@ -13,7 +13,7 @@ Define configuration using the pattern `${...}` to reference other configuration
 </AppConfiguration>
 ```
 
-#### 2. Build the IConfiguration object
+### 2. Build the IConfiguration object
 VariableConfig wraps any previously added configuration. This means that in most normal circumstances, it should be added last.
 ```C#
 var builder = new ConfigurationBuilder()
@@ -23,39 +23,14 @@ var builder = new ConfigurationBuilder()
 Configuration = builder.Build();
 ```
 
-#### 3. Load values from configuration
+### 3. Load values from configuration
 Pull properties from configuration and any variable tokens will be replaced with the value of the configuration item that they refer to.
 ```C#
 var myValue = Configuration["Composite"];
 Assert.AreEqual("VarValueComp1", myValue);
 ```
 
-### Advanced Usage
-Alternatively, the underlying IConfiguration can be added manually by passing an IConfiguration object to AddVariableConfiguration():
-```C#
-var builder = new ConfigurationBuilder()
-    .AddVariableConfiguration(sourceConfiguration);
-Configuration = builder.Build();
-```
-
-It is also possible to use POCO objects in conjunction with Microsoft.Extensions.Configuration.Binder like so:
-```C#
-var appConfig = Configuration.GetSection("ComplexObject").Get<MyPoco>();
-Assert.AreEqual("VarValueInProperty", appConfig.PropertyOnObject);
-
-public class MyPoco
-{
-    public string PropertyOnObject { get; set; }
-}
-```
-```xml
-<AppConfiguration>
-  <ComplexObject>
-    <PropertyOnObject>${Variable}</PropertyOnObject>
-  </ComplexObject>
-</AppConfiguration>
-```
-## Configuration
+## Configuration Rules
 - Anything within `${ }` will be treated as a variable.
 - Variables are resolved from configuration as if they were a normal configuration setting.
 - A value can be composed of multiple variables.
@@ -101,6 +76,36 @@ Configuration["NestedComplexObject"]            //"PropertyIsVarValueInProperty!
   }
 }
 ```
+
+## Advanced Usage
+
+### Building Configuration
+Alternatively, the underlying IConfiguration can be added manually by passing an IConfiguration object to AddVariableConfiguration():
+```C#
+var builder = new ConfigurationBuilder()
+    .AddVariableConfiguration(sourceConfiguration);
+Configuration = builder.Build();
+```
+
+### POCO Objects
+It is also possible to use POCO objects in conjunction with Microsoft.Extensions.Configuration.Binder like so:
+```C#
+var appConfig = Configuration.GetSection("ComplexObject").Get<MyPoco>();
+Assert.AreEqual("VarValueInProperty", appConfig.PropertyOnObject);
+
+public class MyPoco
+{
+    public string PropertyOnObject { get; set; }
+}
+```
+```xml
+<AppConfiguration>
+  <ComplexObject>
+    <PropertyOnObject>${Variable}</PropertyOnObject>
+  </ComplexObject>
+</AppConfiguration>
+```
+
 ### Escaping special characters
 What if you want to have a setting value that contains `'${.*}'`. all you have to do is escape the sequence `${` by putting a `\` in front of it like `\${`.
 
